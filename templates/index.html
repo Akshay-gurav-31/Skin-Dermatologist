@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description"
+    content="MediCynth AI - Advanced skin disease detection using artificial intelligence. Get instant analysis of skin conditions.">
+  <meta name="keywords"
+    content="skin disease, dermatology, AI, artificial intelligence, skin cancer, melanoma, diagnosis">
+  <meta name="author" content="MediCynth AI Team">
+  <title>MediCynth AI Powered Skin Dermatologist – Skin Disease Classifier</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      scroll-behavior: smooth;
+    }
+
+    .navbar {
+      background: #fff !important;
+      border-bottom: 1px solid #e0e0e0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-brand {
+      color: #004c99 !important;
+      font-weight: 900;
+    }
+
+    .nav-link {
+      color: #555 !important;
+      font-weight: 500;
+    }
+
+    .btn-primary,
+    .btn-upload-primary {
+      background: #ff3b30;
+      border-color: #ff3b30;
+      font-weight: 700;
+    }
+
+    .btn-primary:hover,
+    .btn-upload-primary:hover {
+      background: #cc2e26;
+      border-color: #cc2e26;
+    }
+
+    .hero {
+      background: url('https://storage.googleapis.com/gweb-uniblog-publish-prod/images/derm_-_hero_image_2_1.width-1300.jpg') center/cover no-repeat;
+      color: #fff;
+      padding: 7rem 0 5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(184, 165, 151, 0.75);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-weight: 800;
+      text-transform: uppercase;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .step-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      padding: 1.5rem 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      margin-top: 1.5rem;
+      transition: transform .3s;
+    }
+
+    .step-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .step-number {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff3b30;
+      color: #fff;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      border: 2px solid #fff;
+      z-index: 10;
+    }
+
+    .step-icon {
+      font-size: 2.5rem;
+      color: #004c99;
+      background: #e6f0ff;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.95);
+      max-width: 400px;
+      margin: 0 auto 1rem;
+      border-radius: 0.5rem;
+    }
+
+    .btn-upload-primary {
+      padding: 0.75rem 2rem;
+      border-radius: 2rem;
+    }
+
+    .result-box {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-top: 3rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #333;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .uploaded-img {
+      max-height: 380px;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .analysis-card {
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .save-life-section {
+      background: #fff;
+      padding: 5rem 0;
+      color: #333;
+    }
+
+    .save-life-section h2 {
+      color: #004c99;
+      font-weight: 700;
+    }
+
+    .skin-cancer-facts i {
+      color: #ff3b30;
+      margin-right: 8px;
+    }
+
+    .detection-banner {
+      background: linear-gradient(rgba(0, 76, 153, 0.85), rgba(0, 0, 0, 0.4)),
+        url('https://ai-derm.com/assets/bg-big-BjySpOvt.webp') center/cover;
+      padding: 4rem 0;
+      color: #fff;
+    }
+
+    footer {
+      background: #333;
+      padding: 2rem 0;
+      text-align: center;
+      color: #ccc;
+    }
+
+    /* CHATBOT - Floating Fixed */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .chat-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #004c99;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      box-shadow: 0 6px 20px rgba(0, 76, 153, 0.5);
+      z-index: 1050;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .chat-btn:hover {
+      transform: scale(1.12);
+    }
+
+    #chatWindow {
+      width: 380px;
+      max-width: 95vw;
+      height: 520px;
+      background: #fff;
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      display: none;
+      flex-direction: column;
+      z-index: 1050;
+      overflow: hidden;
+      animation: slideUp .4s ease;
+    }
+
+    .chat-header {
+      background: #004c99;
+      color: #fff;
+      padding: 16px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .chat-body {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #f8fbff;
+    }
+
+    .msg {
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 18px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .user-msg {
+      background: #004c99;
+      color: #fff;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bot-msg {
+      background: #fff;
+      color: #333;
+      border-bottom-left-radius: 4px;
+    }
+
+    .typing {
+      font-style: italic;
+      color: #666;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #eee;
+      background: #fff;
+    }
+
+    .chat-input input {
+      flex: 1;
+      border: none;
+      padding: 16px;
+      outline: none;
+    }
+
+    .chat-input button {
+      background: #004c99;
+      color: #fff;
+      border: none;
+      padding: 0 22px;
+      cursor: pointer;
+    }
+
+    /* Responsive Improvements for All Devices */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 5rem 0 3rem;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .step-card {
+        padding: 1rem 0.75rem;
+        margin-top: 1rem;
+      }
+
+      .step-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+      }
+
+      .step-number {
+        width: 25px;
+        height: 25px;
+        font-size: 0.75rem;
+      }
+
+      .result-box {
+        padding: 1.5rem;
+      }
+
+      .uploaded-img {
+        max-height: 250px;
+      }
+
+      .analysis-card {
+        padding: 1.5rem;
+      }
+
+      .save-life-section {
+        padding: 3rem 0;
+      }
+
+      #chatWindow {
+        width: 90vw;
+        height: 70vh;
+        bottom: 80px;
+        right: 5%;
+        border-radius: 15px;
+      }
+
+      .chat-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        bottom: 15px;
+        right: 15px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        padding: 4rem 0 2rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .step-card {
+        padding: 0.75rem 0.5rem;
+      }
+
+      .step-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .step-number {
+        width: 20px;
+        height: 20px;
+        font-size: 0.6rem;
+      }
+
+      .result-box {
+        padding: 1rem;
+      }
+
+      .uploaded-img {
+        max-height: 200px;
+      }
+
+      .analysis-card {
+        padding: 1rem;
+      }
+
+      .form-control {
+        max-width: 100%;
+      }
+
+      #chatWindow {
+        height: 60vh;
+      }
+
+      .chat-header {
+        padding: 12px;
+        font-size: 0.9rem;
+      }
+
+      .chat-input input {
+        padding: 12px;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .hero h1 {
+        font-size: 3.5rem;
+      }
+
+      .step-icon {
+        width: 90px;
+        height: 90px;
+        font-size: 3rem;
+      }
+
+      .uploaded-img {
+        max-height: 450px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">MediCynth AI <span class="fw-light d-none d-sm-inline">| Skin
+          Dermatologist</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#how">How It Works</a></li>
+          <li class="nav-item"><a class="nav-link" href="#features">Why Choose Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Diseases Dictionary</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO + UPLOAD -->
+  <section class="hero" id="upload">
+    <div class="hero-content container">
+      <h1 class="display-3 mb-3">CHECK YOUR SKIN!</h1>
+      <p class="lead mb-4 fw-light">Developed and powered by Team MediCynth.</p>
+
+      <div class="row justify-content-center mb-5 text-center g-3 g-md-4">
+        <div class="col-6 col-md-3 mb-4">
+          <div class="step-card h-100"><span class="step-number">1</span>
+            <div class="step-icon mx-auto"><i class="bi bi-camera"></i></div>
+            <p class="fw-bold text-white mb-0">Take a photo of a skin problem</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="step-card h-100"><span class="step-number">2</span>
+            <div class="step-icon mx-auto"><i class="bi bi-robot"></i></div>
+            <p class="fw-bold text-white mb-0">AI instantly analyzes your photo</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="step-card h-100"><span class="step-number">3</span>
+            <div class="step-icon mx-auto"><i class="bi bi-file-earmark-pdf"></i></div>
+            <p class="fw-bold text-white mb-0">Get a personalized PDF report</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="step-card h-100"><span class="step-number">4</span>
+            <div class="step-icon mx-auto"><i class="bi bi-chat-text"></i></div>
+            <p class="fw-bold text-white mb-0">AI Consultant explains your result</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload Form -->
+      <div class="text-center">
+        <form action="/" method="post" enctype="multipart/form-data" id="uploadForm">
+          <div class="mb-3">
+            <input type="file" name="file" id="skinImage" accept="image/*" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-upload-primary btn-lg mt-3 shadow-lg w-100" style="max-width: 300px;">
+            <i class="bi bi-search me-2"></i> GET INSTANT RESULT
+          </button>
+        </form>
+      </div>
+
+      <!-- Result (Vertical Layout) -->
+      {% if result %}
+      <div id="resultBox" class="result-box">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center">
+            <h4 class="mb-4 text-dark">Your Uploaded Image</h4>
+            <img src="{{ image_url }}" class="uploaded-img img-fluid mb-4" alt="Your skin">
+            <div class="analysis-card text-start">
+              <h5 class="mb-3 text-dark">AI Analysis Results</h5>
+              <div class="text-dark">
+                {{ result.disease_info | safe }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <p class="mt-5 mb-0 small opacity-75 text-white">
+        * The scan result is not a diagnosis. Always consult a qualified doctor.
+      </p>
+    </div>
+  </section>
+
+  <!-- ALL ORIGINAL SECTIONS (unchanged) -->
+  <section class="save-life-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-5 text-center mb-4 mb-md-0">
+          <img src="https://ai-derm.com/assets/man-Dd4eEvB5.webp" alt="Human body model"
+            class="img-fluid rounded shadow-lg">
+        </div>
+        <div class="col-md-7">
+          <h2 class="mb-4">MediCynth AI — Empowering Early Detection, Saving Lives</h2>
+          <p class="lead mb-4">
+            MediCynth AI uses the power of advanced artificial intelligence to assist in the early detection of skin
+            diseases, including life-threatening conditions like skin cancer.
+            Early diagnosis not only improves treatment outcomes but can truly <strong>save lives</strong>.
+          </p>
+          <h4 class="fw-bold mt-4">Why early detection matters:</h4>
+          <div class="skin-cancer-facts">
+            <p><i class="bi bi-arrow-right-circle-fill"></i> Skin cancer is one of the most common yet preventable forms
+              of cancer globally.</p>
+            <p><i class="bi bi-arrow-right-circle-fill"></i> Melanoma, the most serious type of skin cancer, spreads
+              faster than other skin cancers if left undetected.</p>
+            <p><i class="bi bi-arrow-right-circle-fill"></i> Every year, millions of people are affected — but early
+              detection can make a life-changing difference.</p>
+            <p><i class="bi bi-arrow-right-circle-fill"></i> With MediCynth AI, individuals can identify risks in time
+              and seek professional care early.</p>
+            <p><i class="bi bi-arrow-right-circle-fill"></i> When detected early, the <strong>5-year survival rate for
+                melanoma is as high as 99%</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="detection-banner">
+    <div class="container text-center">
+      <h2 class="display-5 mb-3">Early Detection Saves Lives!</h2>
+      <p class="lead mb-4">Small changes can mean big problems. 7 simple questions can reveal what your skin needs to
+        stay healthy.</p>
+      <a href="#upload" class="btn btn-primary btn-lg rounded-pill"
+        style="background-color:#ff3b30;border-color:#ff3b30;padding:15px 40px;">ACT NOW</a>
+    </div>
+  </section>
+
+  <section id="features" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5 fw-bold">Why should you use MediCynth AI?</h2>
+      <div class="row justify-content-center mb-5">
+        <div class="col-md-10">
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                  <div class="feature-icon bg-primary bg-opacity-10 text-primary rounded-circle p-3 d-inline-flex mb-3">
+                    <i class="bi bi-heart-pulse-fill fs-3"></i>
+                  </div>
+                  <h5 class="card-title fw-bold mb-3">50+ Skin Diseases</h5>
+                  <p class="card-text text-muted mb-0">Detects a wide range of skin conditions including melanoma and
+                    other skin cancers.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                  <div class="feature-icon bg-success bg-opacity-10 text-success rounded-circle p-3 d-inline-flex mb-3">
+                    <i class="bi bi-shield-check fs-3"></i>
+                  </div>
+                  <h5 class="card-title fw-bold mb-3">97% Accuracy</h5>
+                  <p class="card-text text-muted mb-0">Clinically validated AI with over 97% accuracy based on extensive
+                    testing.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                  <div class="feature-icon bg-info bg-opacity-10 text-info rounded-circle p-3 d-inline-flex mb-3">
+                    <i class="bi bi-house-door-fill fs-3"></i>
+                  </div>
+                  <h5 class="card-title fw-bold mb-3">At-Home Screening</h5>
+                  <p class="card-text text-muted mb-0">Instant screening from the comfort of your home with
+                    professional-grade analysis.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                  <div class="feature-icon bg-warning bg-opacity-10 text-warning rounded-circle p-3 d-inline-flex mb-3">
+                    <i class="bi bi-lightning-charge-fill fs-3"></i>
+                  </div>
+                  <h5 class="card-title fw-bold mb-3">1-Minute Results</h5>
+                  <p class="card-text text-muted mb-0">Get comprehensive analysis and results within just 60 seconds of
+                    uploading.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                  <div class="feature-icon bg-danger bg-opacity-10 text-danger rounded-circle p-3 d-inline-flex mb-3">
+                    <i class="bi bi-robot fs-3"></i>
+                  </div>
+                  <h5 class="card-title fw-bold mb-3">24/7 AI Consultant</h5>
+                  <p class="card-text text-muted mb-0">Round-the-clock access to your personal AI dermatology assistant.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center p-4">
+                  <div
+                    class="feature-icon bg-secondary bg-opacity-10 text-secondary rounded-circle p-3 d-inline-flex mb-3">
+                    <i class="bi bi-file-earmark-pdf fs-3"></i>
+                  </div>
+                  <h5 class="card-title fw-bold mb-3">Detailed Reports</h5>
+                  <p class="card-text text-muted mb-0">Receive personalized PDF reports with actionable insights and
+                    recommendations.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sign up section removed as per user request -->
+    </div>
+  </section>
+
+  <section id="contact" class="py-5 bg-light">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">Contact Us</h2>
+            <p class="text-muted">Have questions or feedback? Reach out to us and we'll get back to you as soon as
+              possible.</p>
+          </div>
+          <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-body p-4 p-md-5">
+              <form>
+                <div class="row g-4">
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="contactName" placeholder="Your Name">
+                      <label for="contactName">Your Name</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="email" class="form-control" id="contactEmail" placeholder="Your Email">
+                      <label for="contactEmail">Your Email</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="Message" id="contactMessage"
+                        style="height: 120px"></textarea>
+                      <label for="contactMessage">Message</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="button" class="btn btn-primary btn-lg w-100 rounded-pill py-3">Send Message</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="mb-0 small">© 2025 MediCynth AI. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <p class="mb-0 small">Developed by Team MediCynth</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING CHATBOT (Gemini Powered) -->
+  <button class="chat-btn" onclick="toggleChat()">
+    <i class="bi bi-chat-dots fs-4"></i>
+  </button>
+
+  <div id="chatWindow">
+    <div class="chat-header">MediCynth AI Consultant</div>
+    <div class="chat-body" id="chatBody">
+      <div class="msg bot-msg">Hello! I'm powered by Google Gemini AI. How can I help with your skin today?</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Ask about skin concerns..."
+        onkeypress="if(event.key==='Enter') sendMessage()">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Chat Functions
+    function toggleChat() {
+      const win = document.getElementById("chatWindow");
+      win.style.display = (win.style.display === "flex") ? "none" : "flex";
+    }
+
+    function addMessage(text, sender) {
+      const body = document.getElementById("chatBody");
+      const div = document.createElement("div");
+      div.className = `msg ${sender}-msg`;
+      div.innerHTML = text;
+      body.appendChild(div);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById("userInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage(text, "user");
+      input.value = "";
+
+      const typing = document.createElement("div");
+      typing.className = "msg bot-msg typing";
+      typing.textContent = "MediCynth is typing...";
+      document.getElementById("chatBody").appendChild(typing);
+
+      const GEMINI_API_KEY = "AIzaSyBJjVZ3US7q5hisidC3ToedcDx6gcfoFi4";
+
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: `You are MediCynth AI dermatology assistant. Answer warmly and professionally. Always remind to consult a doctor. Question: ${text}` }] }]
+          })
+        });
+
+        const data = await response.json();
+        typing.remove();
+        const reply = data.candidates[0].content.parts[0].text
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n/g, '<br>');
+        addMessage(reply, "bot");
+      } catch (err) {
+        typing.remove();
+        addMessage("Sorry, connection issue. Try again.", "bot");
+      }
+    }
+  </script>
+
+</body>
+
+</html>
