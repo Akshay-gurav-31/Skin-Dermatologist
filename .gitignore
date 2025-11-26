@@ -1,6 +1,7 @@
 # Large model files (too big for GitHub)
 checkpoints/
 model/
+static/uploads/
 *.keras
 *.h5
 *.pb
