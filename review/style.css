@@ -1,0 +1,79 @@
+/* Background */
+body {
+    background: #f3f3f3;
+    font-family: Arial, sans-serif;
+}
+
+/* Container Box */
+.container {
+    width: 450px;
+    background: #fff;
+    padding: 25px;
+    margin: 40px auto;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Input fields */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+/* Submit Button */
+button {
+    background: #ff9800;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #e68900;
+}
+
+/* ⭐ STAR RATING */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse; /* important for correct hover effect */
+    justify-content: flex-start;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label.star {
+    font-size: 40px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+/* Hover effect */
+.star-rating label.star:hover,
+.star-rating label.star:hover ~ label.star {
+    color: gold;
+}
+
+/* Selected star effect */
+.star-rating input:checked + label.star,
+.star-rating input:checked + label.star ~ label.star {
+    color: gold;
+}

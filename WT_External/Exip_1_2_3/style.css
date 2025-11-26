@@ -1,0 +1,45 @@
+body {
+    font-family: Arial;
+    background: #f0f4ff;
+}
+
+.box {
+    width: 350px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px gray;
+}
+
+h2 {
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0 15px;
+    border: 1px solid #7da2ff;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #3b6cff;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+a {
+    color: #3b6cff;
+}
+
+#regMsg, #loginMsg {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
