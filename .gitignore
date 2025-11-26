@@ -22,6 +22,10 @@ ENV/
 *.swp
 *.swo
 
+# Jupyter Notebooks
+*.ipynb
+.ipynb_checkpoints/
+
 # OS
 .DS_Store
 Thumbs.db
